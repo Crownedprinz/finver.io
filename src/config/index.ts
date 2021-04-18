@@ -1,25 +1,24 @@
 import dotenv from "dotenv";
-
 // Set the NODE_ENV to 'development' by default
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
-
 const envFound = dotenv.config();
 if (envFound.error) {
   // This error should crash whole process
 
   throw new Error("⚠️  Couldn't find .env file  ⚠️");
 }
-
+// {
+//   parsed: { DB_HOST: 'localhost', DB_USER: 'root', DB_PASS: 's1mpl3' }
+// }
 export default {
   /**
    * Your favorite port
    */
-  //port: parseInt(process.env.PORT, 10),
-  port: process.env.PORT,
+  port: parseInt(<string>process.env.PORT, 10),
   /**
    * That long string from mlab
    */
-  databaseURL: process.env.MONGODB_URI,
+  databaseURL: <string>process.env.MONGODB_URI,
 
   /**
    * Your secret sauce
@@ -38,10 +37,9 @@ export default {
    * Agenda.js stuff
    */
   agenda: {
-    dbCollection: process.env.AGENDA_DB_COLLECTION,
+    dbCollection: <string>process.env.AGENDA_DB_COLLECTION,
     pooltime: process.env.AGENDA_POOL_TIME,
-    //concurrency: parseInt(process.env.AGENDA_CONCURRENCY, 10),
-    concurrency: process.env.AGENDA_CONCURRENCY,
+    concurrency: parseInt(<string>process.env.AGENDA_CONCURRENCY, 10),
   },
 
   /**

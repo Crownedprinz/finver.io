@@ -25,8 +25,8 @@ export default ({
     Container.set(
       "emailClient",
       mgInstance.client({
-        key: config.emails.apiKey,
-        username: config.emails.apiUsername,
+        key: <string>config.emails.apiKey,
+        username: <string>config.emails.apiUsername,
       })
     );
     

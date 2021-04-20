@@ -9,7 +9,9 @@ var route = express_1.Router();
 exports.default = (function (app) {
     app.use("/users", route);
     route.get("/me", middlewares_1.default.isAuth, middlewares_1.default.attachCurrentUser, function (req, res) {
-        return res.json({ user: req.currentUser }).status(200);
+        return res.json({ user: 1
+            // req.currentUser 
+        }).status(200);
     });
 });
 //# sourceMappingURL=user.js.map

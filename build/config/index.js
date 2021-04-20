@@ -7,7 +7,7 @@ var dotenv_1 = __importDefault(require("dotenv"));
 // Set the NODE_ENV to 'development' by default
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 var envFound = dotenv_1.default.config();
-if (envFound.error) {
+if (process.env.NODE_ENV == "development" && envFound.error) {
     // This error should crash whole process
     throw new Error("⚠️  Couldn't find .env file  ⚠️");
 }
@@ -53,7 +53,7 @@ exports.default = {
      * API configs
      */
     api: {
-        prefix: "/api",
+        prefix: "/api/v1",
     },
     /**
      * Mailgun email credentials

@@ -71,7 +71,9 @@ var crypto_1 = require("crypto");
 var eventDispatcher_1 = require("../decorators/eventDispatcher");
 var events_1 = __importDefault(require("../subscribers/events"));
 var AuthService = /** @class */ (function () {
-    function AuthService(userModel, mailer, logger, eventDispatcher) {
+    function AuthService(userModel, 
+    // : Models.UserModel,
+    mailer, logger, eventDispatcher) {
         this.userModel = userModel;
         this.mailer = mailer;
         this.logger = logger;

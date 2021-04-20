@@ -35,7 +35,7 @@ exports.default = (function (_a) {
     // Middleware that transforms the raw string of req.body into json
     app.use(body_parser_1.default.json());
     //Load Swagger
-    app.use("api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.swaggerDocument));
+    app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.swaggerDocument));
     // Load API routes
     app.use(config_1.default.api.prefix, api_1.default());
     /// catch 404 and forward to error handler

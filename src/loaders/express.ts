@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import routes from "../api";
 import config from "../config";
+import swaggerUI from "swagger-ui-express";
+import {swaggerDocument} from "./swagger";
 export default ({ app }: { app: express.Application }) => {
   /**
    * Health Check endpoints
@@ -31,6 +33,8 @@ export default ({ app }: { app: express.Application }) => {
 
   // Middleware that transforms the raw string of req.body into json
   app.use(bodyParser.json());
+  //Load Swagger
+  app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
   // Load API routes
   app.use(config.api.prefix, routes());
 

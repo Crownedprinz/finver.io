@@ -35,48 +35,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata"); // We need this in order to use @Decorators
-var config_1 = __importDefault(require("./config"));
-var express_1 = __importDefault(require("express"));
-var logger_1 = __importDefault(require("./loaders/logger"));
-function startServer() {
-    return __awaiter(this, void 0, void 0, function () {
-        var app;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    app = express_1.default();
-                    /**
-                     * A little hack here
-                     * Import/Export can only be used in 'top-level code'
-                     * Well, at least in node 10 without babel and at the time of writing
-                     * So we are using good old require.
-                     **/
-                    return [4 /*yield*/, require("./loaders").default({ expressApp: app })];
-                case 1:
-                    /**
-                     * A little hack here
-                     * Import/Export can only be used in 'top-level code'
-                     * Well, at least in node 10 without babel and at the time of writing
-                     * So we are using good old require.
-                     **/
-                    _a.sent();
-                    app
-                        .listen(config_1.default.port, function () {
-                        logger_1.default.info("\n      ################################################\n      \uD83D\uDEE1\uFE0F  Server listening on port: " + config_1.default.port + " \uD83D\uDEE1\uFE0F\n      ################################################\n    ");
-                    })
-                        .on("error", function (err) {
-                        logger_1.default.error(err);
-                        process.exit(1);
-                    });
-                    return [2 /*return*/];
-            }
-        });
+var typedi_1 = require("typedi");
+/**
+ * Attach user to req.currentUser
+ * @param {*} req Express req Object
+ * @param {*} res  Express res Object
+ * @param {*} next  Express next Function
+ */
+var attachCurrentUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var Logger, UserModel, userRecord, currentUser, e_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                Logger = typedi_1.Container.get("logger");
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                UserModel = typedi_1.Container.get("userModel");
+                return [4 /*yield*/, UserModel.findById(req.token._id)];
+            case 2:
+                userRecord = _a.sent();
+                if (!userRecord) {
+                    return [2 /*return*/, res.sendStatus(401)];
+                }
+                currentUser = userRecord.toObject();
+                Reflect.deleteProperty(currentUser, "password");
+                Reflect.deleteProperty(currentUser, "salt");
+                req.currentUser = currentUser;
+                return [2 /*return*/, next()];
+            case 3:
+                e_1 = _a.sent();
+                Logger.error("🔥 Error attaching user to req: %o", e_1);
+                return [2 /*return*/, next(e_1)];
+            case 4: return [2 /*return*/];
+        }
     });
-}
-startServer();
-//# sourceMappingURL=app.js.map
+}); };
+exports.default = attachCurrentUser;
+//# sourceMappingURL=attachCurrentUser.js.map

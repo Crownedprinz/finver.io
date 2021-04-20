@@ -39,44 +39,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata"); // We need this in order to use @Decorators
-var config_1 = __importDefault(require("./config"));
-var express_1 = __importDefault(require("express"));
-var logger_1 = __importDefault(require("./loaders/logger"));
-function startServer() {
-    return __awaiter(this, void 0, void 0, function () {
-        var app;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    app = express_1.default();
-                    /**
-                     * A little hack here
-                     * Import/Export can only be used in 'top-level code'
-                     * Well, at least in node 10 without babel and at the time of writing
-                     * So we are using good old require.
-                     **/
-                    return [4 /*yield*/, require("./loaders").default({ expressApp: app })];
-                case 1:
-                    /**
-                     * A little hack here
-                     * Import/Export can only be used in 'top-level code'
-                     * Well, at least in node 10 without babel and at the time of writing
-                     * So we are using good old require.
-                     **/
-                    _a.sent();
-                    app
-                        .listen(config_1.default.port, function () {
-                        logger_1.default.info("\n      ################################################\n      \uD83D\uDEE1\uFE0F  Server listening on port: " + config_1.default.port + " \uD83D\uDEE1\uFE0F\n      ################################################\n    ");
-                    })
-                        .on("error", function (err) {
-                        logger_1.default.error(err);
-                        process.exit(1);
-                    });
-                    return [2 /*return*/];
-            }
+var typedi_1 = require("typedi");
+var mailer_1 = __importDefault(require("../services/mailer"));
+var EmailSequenceJob = /** @class */ (function () {
+    function EmailSequenceJob() {
+    }
+    EmailSequenceJob.prototype.handler = function (job, done) {
+        return __awaiter(this, void 0, void 0, function () {
+            var Logger, _a, email, name, mailerServiceInstance, e_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        Logger = typedi_1.Container.get("logger");
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        Logger.debug("✌️ Email Sequence Job triggered!");
+                        _a = job.attrs.data, email = _a.email, name = _a.name;
+                        mailerServiceInstance = typedi_1.Container.get(mailer_1.default);
+                        return [4 /*yield*/, mailerServiceInstance.SendWelcomeEmail(email)];
+                    case 2:
+                        _b.sent();
+                        done();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_1 = _b.sent();
+                        Logger.error("🔥 Error with Email Sequence Job: %o", e_1);
+                        done(e_1);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
         });
-    });
-}
-startServer();
-//# sourceMappingURL=app.js.map
+    };
+    return EmailSequenceJob;
+}());
+exports.default = EmailSequenceJob;
+//# sourceMappingURL=emailSequence.js.map

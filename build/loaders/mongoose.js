@@ -39,44 +39,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata"); // We need this in order to use @Decorators
-var config_1 = __importDefault(require("./config"));
-var express_1 = __importDefault(require("express"));
-var logger_1 = __importDefault(require("./loaders/logger"));
-function startServer() {
-    return __awaiter(this, void 0, void 0, function () {
-        var app;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    app = express_1.default();
-                    /**
-                     * A little hack here
-                     * Import/Export can only be used in 'top-level code'
-                     * Well, at least in node 10 without babel and at the time of writing
-                     * So we are using good old require.
-                     **/
-                    return [4 /*yield*/, require("./loaders").default({ expressApp: app })];
-                case 1:
-                    /**
-                     * A little hack here
-                     * Import/Export can only be used in 'top-level code'
-                     * Well, at least in node 10 without babel and at the time of writing
-                     * So we are using good old require.
-                     **/
-                    _a.sent();
-                    app
-                        .listen(config_1.default.port, function () {
-                        logger_1.default.info("\n      ################################################\n      \uD83D\uDEE1\uFE0F  Server listening on port: " + config_1.default.port + " \uD83D\uDEE1\uFE0F\n      ################################################\n    ");
-                    })
-                        .on("error", function (err) {
-                        logger_1.default.error(err);
-                        process.exit(1);
-                    });
-                    return [2 /*return*/];
-            }
-        });
+var mongoose_1 = __importDefault(require("mongoose"));
+var config_1 = __importDefault(require("../config"));
+exports.default = (function () { return __awaiter(void 0, void 0, void 0, function () {
+    var connection;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, mongoose_1.default.connect(config_1.default.databaseURL, {
+                    useNewUrlParser: true,
+                    useCreateIndex: true,
+                    useUnifiedTopology: true,
+                })];
+            case 1:
+                connection = _a.sent();
+                return [2 /*return*/, connection.connection.db];
+        }
     });
-}
-startServer();
-//# sourceMappingURL=app.js.map
+}); });
+//# sourceMappingURL=mongoose.js.map

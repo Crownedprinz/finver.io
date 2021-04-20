@@ -39,44 +39,48 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata"); // We need this in order to use @Decorators
-var config_1 = __importDefault(require("./config"));
-var express_1 = __importDefault(require("express"));
-var logger_1 = __importDefault(require("./loaders/logger"));
-function startServer() {
-    return __awaiter(this, void 0, void 0, function () {
-        var app;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    app = express_1.default();
-                    /**
-                     * A little hack here
-                     * Import/Export can only be used in 'top-level code'
-                     * Well, at least in node 10 without babel and at the time of writing
-                     * So we are using good old require.
-                     **/
-                    return [4 /*yield*/, require("./loaders").default({ expressApp: app })];
+var express_1 = __importDefault(require("./express"));
+var dependencyinjector_1 = __importDefault(require("./dependencyinjector"));
+var mongoose_1 = __importDefault(require("./mongoose"));
+var jobs_1 = __importDefault(require("./jobs"));
+var logger_1 = __importDefault(require("./logger"));
+//We have to import at least all the events once so they can be triggered
+require("./events");
+exports.default = (function (_a) {
+    var expressApp = _a.expressApp;
+    return __awaiter(void 0, void 0, void 0, function () {
+        var mongoConnection, userModel, agenda;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, mongoose_1.default()];
                 case 1:
-                    /**
-                     * A little hack here
-                     * Import/Export can only be used in 'top-level code'
-                     * Well, at least in node 10 without babel and at the time of writing
-                     * So we are using good old require.
-                     **/
-                    _a.sent();
-                    app
-                        .listen(config_1.default.port, function () {
-                        logger_1.default.info("\n      ################################################\n      \uD83D\uDEE1\uFE0F  Server listening on port: " + config_1.default.port + " \uD83D\uDEE1\uFE0F\n      ################################################\n    ");
-                    })
-                        .on("error", function (err) {
-                        logger_1.default.error(err);
-                        process.exit(1);
-                    });
+                    mongoConnection = _b.sent();
+                    logger_1.default.info("✌️ DB loaded and connected!");
+                    userModel = {
+                        name: "userModel",
+                        // Notice the require syntax and the '.default'
+                        model: require("../models/user").default,
+                    };
+                    return [4 /*yield*/, dependencyinjector_1.default({
+                            mongoConnection: mongoConnection,
+                            models: [
+                                userModel,
+                            ],
+                        })];
+                case 2:
+                    agenda = (_b.sent()).agenda;
+                    logger_1.default.info("✌️ Dependency Injector loaded");
+                    return [4 /*yield*/, jobs_1.default({ agenda: agenda })];
+                case 3:
+                    _b.sent();
+                    logger_1.default.info("✌️ Jobs loaded");
+                    return [4 /*yield*/, express_1.default({ app: expressApp })];
+                case 4:
+                    _b.sent();
+                    logger_1.default.info("✌️ Express loaded");
                     return [2 /*return*/];
             }
         });
     });
-}
-startServer();
-//# sourceMappingURL=app.js.map
+});
+//# sourceMappingURL=index.js.map

@@ -1,13 +1,17 @@
 export interface IUser {
   _id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
   email: string;
   password: string;
   salt: string;
 }
 
 export interface IUserInputDTO {
-  name: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
   email: string;
   password: string;
 }

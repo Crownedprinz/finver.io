@@ -1,4 +1,5 @@
 import { getUsers} from "../docs/openapi/user.swagger";
+import { SignUp,SignIn } from "../docs/openapi/auth.swagger";
 
 export const swaggerDocument = {
   openapi: "3.0.1",
@@ -35,12 +36,20 @@ export const swaggerDocument = {
   },
   host: "localhost:3000",
   basePath: "/api/v1",
+  consumes: ["application/json"],
+  produces: ["application/json"],
   tags: [
     {
       name: "Users",
     },
   ],
   paths: {
+    "/api/v1/auth/signup": {
+      post: SignUp,
+    },
+    "/api/v1/auth/signin": {
+      post: SignIn,
+    },
     "/api/v1/users": {
       get: getUsers,
     },

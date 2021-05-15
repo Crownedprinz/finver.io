@@ -1,3 +1,4 @@
+import { Components } from './components';
 export const SignUp = {
   tags: ["Auth"],
   description: "Grant Access to loan providers",
@@ -98,27 +99,27 @@ export const SignIn = {
       bearerAuth: [],
     },
   ],
-  parameters: [
-    {
-      name: "signin",
-      in: "body",
-      required: true,
-      schema: {
-        required: ["email", "password"],
-        type: "object",
-        properties: {
-          email: {
-            type: "string",
-            description: "Registered Company Email",
-          },
-          password: {
-            type: "string",
-            description: "Strong Password Recommended",
+  parameters: [],
+  requestBody: {
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          properties: {
+            email: {
+              type: "string",
+              required: true,
+            },
+            password: {
+              type: "string",
+              required: true,
+            },
           },
         },
       },
     },
-  ],
+    required: true,
+  },
   responses: {
     "200": {
       description: "User Sign Up",
@@ -167,3 +168,5 @@ export const SignIn = {
     },
   },
 };
+
+

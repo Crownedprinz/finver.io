@@ -1,3 +1,4 @@
+import { GetBanks, OnboardBank } from "./../docs/openapi/banks.swagger";
 import { getUsers} from "../docs/openapi/user.swagger";
 import { SignUp,SignIn } from "../docs/openapi/auth.swagger";
 
@@ -43,6 +44,20 @@ export const swaggerDocument = {
       name: "Users",
     },
   ],
+  servers: [
+    {
+      url: "http://localhost:3000/",
+      description: "Local server",
+    },
+    {
+      url: "https://finver.herokuapp.com/",
+      description: "Testing server",
+    },
+    {
+      url: "https://api.finver.io/",
+      description: "Production server",
+    },
+  ],
   paths: {
     "/api/v1/auth/signup": {
       post: SignUp,
@@ -52,6 +67,10 @@ export const swaggerDocument = {
     },
     "/api/v1/users": {
       get: getUsers,
+    },
+    "/api/v1/banks": {
+      get: GetBanks,
+      post: OnboardBank,
     },
   },
 };

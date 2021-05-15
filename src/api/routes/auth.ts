@@ -40,12 +40,12 @@ export default (app: Router) => {
 
   route.post(
     "/signin",
-    celebrate({
-      body: Joi.object({
-        email: Joi.string().required(),
-        password: Joi.string().required(),
-      }),
-    }),
+    // celebrate({
+    //   body: Joi.object({
+    //     email: Joi.string().required(),
+    //     password: Joi.string().required(),
+    //   }),
+    // }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get("logger");
       logger.debug("Calling Sign-In endpoint with body: %o", req.body);

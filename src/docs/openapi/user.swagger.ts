@@ -13,8 +13,8 @@ export const getUsers = {
       content: {
         "application/json": {
           schema: {
-            type: "array",
-            items: {
+            type: "object",
+            properties: {
               pet_name: {
                 type: "string",
                 description: "User Name",

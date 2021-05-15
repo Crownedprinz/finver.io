@@ -3,9 +3,19 @@ import mongoose from "mongoose";
 
 const User = new mongoose.Schema(
   {
-    name: {
+    firstName: {
       type: String,
-      required: [true, "Please enter a full name"],
+      required: [true, "Please enter a first Name"],
+      index: true,
+    },
+    lastName: {
+      type: String,
+      required: [true, "Please enter a Surname"],
+      index: true,
+    },
+    companyName: {
+      type: String,
+      required: [true, "Please enter a Company Name"],
       index: true,
     },
 
@@ -19,7 +29,10 @@ const User = new mongoose.Schema(
     password: String,
 
     salt: String,
-
+    isApproved: {
+      type: Boolean,
+      default: false,
+    },
     role: {
       type: String,
       default: "user",

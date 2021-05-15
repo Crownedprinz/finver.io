@@ -87,6 +87,9 @@ export default class AuthService {
     if (!userRecord) {
       throw new Error("User not registered");
     }
+    if (!userRecord.isApproved) {
+      throw new Error("You are not approved yet! Please contact support@finver.io");
+    }
     /**
      * We use verify from argon2 to prevent 'timing based' attacks
      */

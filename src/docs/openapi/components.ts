@@ -1,4 +1,4 @@
-import { Gender } from "../../api/constants/enums";
+import { Gender } from "../../constants/enums";
 
 export const Components = {
   /* ... */

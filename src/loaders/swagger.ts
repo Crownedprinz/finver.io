@@ -1,6 +1,10 @@
 import { GetBanks, OnboardBank } from "./../docs/openapi/banks.swagger";
 import { getUsers} from "../docs/openapi/user.swagger";
 import { SignUp,SignIn } from "../docs/openapi/auth.swagger";
+import {
+  GetAllCustomers,
+  CreateCustomer,
+} from "../docs/openapi/customers.swagger";
 
 export const swaggerDocument = {
   openapi: "3.0.1",
@@ -71,6 +75,10 @@ export const swaggerDocument = {
     "/api/v1/banks": {
       get: GetBanks,
       post: OnboardBank,
+    },
+    "/api/v1/customers": {
+      get: GetAllCustomers,
+      post: CreateCustomer
     },
   },
 };

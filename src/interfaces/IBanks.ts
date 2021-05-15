@@ -3,12 +3,12 @@ export interface IBanks {
   name: string;
   sortCode: string;
   active: string;
-  color: company;
+  color: Color;
   logo: string;
   icon: string;
 }
 
-export interface company {
+export interface Color {
   primary: string;
   secondary: string;
   accent: string;
@@ -17,7 +17,7 @@ export interface company {
 export interface IBanksInputDTO {
   name: string;
   sortCode: string;
-  color: company;
+  color: Color;
   logo: string;
   icon: string;
 }

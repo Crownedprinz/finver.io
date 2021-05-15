@@ -46,7 +46,7 @@ const Banks = new mongoose.Schema(
       required: [false],
     },
   },
-  { timestamps: true }
+    
 );
 
 export default mongoose.model<IBanks & mongoose.Document>("Banks", Banks);

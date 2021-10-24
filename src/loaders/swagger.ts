@@ -1,4 +1,6 @@
-import { GetBanks, OnboardBank } from "./../docs/openapi/banks.swagger";
+import { AddTransaction } from './../docs/openapi/trans.swagger';
+import { GetAllTransactions } from '../docs/openapi/trans.swagger';
+import { GetBanks, OnboardBank } from "../docs/openapi/banks.swagger";
 import { getUsers} from "../docs/openapi/user.swagger";
 import { SignUp,SignIn } from "../docs/openapi/auth.swagger";
 import {
@@ -78,7 +80,12 @@ export const swaggerDocument = {
     },
     "/api/v1/customers": {
       get: GetAllCustomers,
-      post: CreateCustomer
+      post: CreateCustomer,
+    },
+    "/api/v1/transactions": {
+      get: GetAllTransactions,
+      post: AddTransaction
+      
     },
   },
 };

@@ -2,7 +2,7 @@ import { ICustomer, ICustomerInputDto } from "./../interfaces/ICustomer";
 import { Inject, Service } from "typedi";
 
 @Service()
-export default class CustomerService {
+export default class CustomerService {  
   constructor(
     @Inject("logger") private logger,
     @Inject("customerModel") private customerModel

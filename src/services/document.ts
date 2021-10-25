@@ -2,12 +2,14 @@ import { Summary } from "./../interfaces/IDocumentRes";
 import { IDocument } from "./../interfaces/IDocument";
 import { Inject, Service } from "typedi";
 import { IDocumentRes } from "../interfaces/IDocumentRes";
+import { ITemplate } from "../interfaces/ITemplate";
 
 @Service()
 export default class DocumentService {
   constructor(
     @Inject("logger") private logger,
-    @Inject("documentModel") private documentModel
+    @Inject("documentModel") private documentModel,
+    @Inject("templateModel") private templateModel
   ) {}
 
   public async GetAllDocuments(): Promise<IDocumentRes> {
@@ -20,9 +22,9 @@ export default class DocumentService {
           pendingDocumentsCount: 0,
           documentsCount: 0,
         } as Summary,
-        draftsDocuments:[],
-        pendingDocuments:[],
-        rejectedDocuments:[]
+        draftsDocuments: [],
+        pendingDocuments: [],
+        rejectedDocuments: [],
       };
       const result = DocumentModel as IDocument[];
       documents.summary.documentsCount = result.length;
@@ -42,5 +44,12 @@ export default class DocumentService {
       this.logger.error(e);
       throw e;
     }
+  }
+
+  public async GetAllTemplates(): Promise<ITemplate> {
+    this.logger.silly("Reading  Records");
+    const TemplateModel = await this.templateModel.find();
+    const templates = TemplateModel;
+    return templates;
   }
 }

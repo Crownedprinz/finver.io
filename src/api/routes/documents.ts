@@ -5,9 +5,9 @@ import DocumentService from "../../services/document";
 const router = Router();
 
 export default (app: Router) => {
-  app.use("/documents", router);
   const documentServiceInstance = Container.get(DocumentService);
   const logger: Logger = Container.get("logger");
+  app.use("/documents", router);
   router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     logger.debug("Calling List of Documents endpoint");
     try {
@@ -18,4 +18,18 @@ export default (app: Router) => {
       throw next(e);
     }
   });
+
+  router.get(
+    "/templates",
+    async (req: Request, res: Response, next: NextFunction) => {
+      logger.debug("Calling List of Templates endpoint");
+      try {
+        const templates = await documentServiceInstance.GetAllTemplates();
+        return res.status(200).json(templates);
+      } catch (e) {
+        logger.error("error: o%", e);
+        throw next(e);
+      }
+    }
+  );
 };

@@ -1,5 +1,5 @@
-import { ITemplate } from "./../interfaces/ITemplate";
 import mongoose from "mongoose";
+import { ITemplate } from "../interfaces/IDocument";
 const TemplateSchema = new mongoose.Schema({
   docNum: {
     type: Number,

@@ -30,4 +30,18 @@ export interface IDocument {
   files: Files;
   metaData: MetaData;
   status: String;
+  comment: String;
+}
+
+export interface ITemplate {
+  docNum: number;
+  name: string;
+  description: string;
+  documentType: string;
+}
+
+
+export interface IDocumentInputDto {
+  docSysref: Number;
+  reasonForRejection: String;
 }

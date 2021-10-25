@@ -1,8 +1,11 @@
 import { Summary } from "./../interfaces/IDocumentRes";
-import { IDocument } from "./../interfaces/IDocument";
+import {
+  IDocument,
+  IDocumentInputDto,
+  ITemplate,
+} from "./../interfaces/IDocument";
 import { Inject, Service } from "typedi";
 import { IDocumentRes } from "../interfaces/IDocumentRes";
-import { ITemplate } from "../interfaces/ITemplate";
 
 @Service()
 export default class DocumentService {
@@ -51,5 +54,39 @@ export default class DocumentService {
     const TemplateModel = await this.templateModel.find();
     const templates = TemplateModel;
     return templates;
+  }
+
+  public async ApproveDocument(input: number): Promise<boolean> {
+    this.logger.silly("Approving  Document");
+    let error;
+    var query = { docID: input };
+    const record = await this.documentModel.findOneAndUpdate(
+      query,
+      { status: "approved" },
+      { useFindAndModify: false },
+      function (err, doc) {
+        if (err) error = err;
+      }
+    );
+    if (error) throw new Error(error);
+    if (!record) throw new Error("Sysref does not exist");
+    return true;
+  }
+
+  public async RejectDocument(input: IDocumentInputDto): Promise<boolean> {
+    this.logger.silly("Approving  Document");
+    let error;
+    var query = { docID: input.docSysref };
+    const record = await this.documentModel.findOneAndUpdate(
+      query,
+      { status: "rejected", comment: input?.reasonForRejection },
+      { useFindAndModify: false },
+      function (err, doc) {
+        if (err) error = err;
+      }
+    );
+    if (error) throw new Error(error);
+    if (!record) throw new Error("Sysref does not exist");
+    return true;
   }
 }

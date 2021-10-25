@@ -8,6 +8,7 @@ const DocumentSchema = new mongoose.Schema({
     index: true,
   },
   status: String,
+  comment: String,
   files: {
     fileName: String,
     content: String,

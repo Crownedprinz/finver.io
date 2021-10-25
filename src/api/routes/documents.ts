@@ -35,6 +35,22 @@ export default (app: Router) => {
   );
 
    router.patch(
+     "/approve",
+     async (req: Request, res: Response, next: NextFunction) => {
+       logger.debug("Calling Approve endpoint");
+       try {
+         const result = await documentServiceInstance.ApproveDocument(
+           Number(req.query.DocSysref)
+         );
+         return res.status(200).json(result);
+       } catch (e) {
+         logger.error("error: o%", e);
+         throw next(e);
+       }
+     }
+   );
+
+   router.patch(
      "/reject",
      async (req: Request, res: Response, next: NextFunction) => {
        logger.debug("Calling Reject endpoint");

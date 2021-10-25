@@ -1,3 +1,4 @@
+import { IDocumentInputDto } from './../../interfaces/IDocument';
 import { Logger } from "winston";
 import { Container } from "typedi";
 import { NextFunction, Request, Response, Router } from "express";
@@ -32,4 +33,20 @@ export default (app: Router) => {
       }
     }
   );
+
+   router.patch(
+     "/reject",
+     async (req: Request, res: Response, next: NextFunction) => {
+       logger.debug("Calling Reject endpoint");
+       try {
+         const result = await documentServiceInstance.RejectDocument(
+           req.body as IDocumentInputDto
+         );
+         return res.status(200).json(result);
+       } catch (e) {
+         logger.error("error: o%", e);
+         throw next(e);
+       }
+     }
+   );
 };
